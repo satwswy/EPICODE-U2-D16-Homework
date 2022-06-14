@@ -37,9 +37,14 @@
       </div>
       <input type="submit" value="Submit" />
     </form>
+    <div>
+        <input type="text" id="delete" placeholder="id for deletetion">
+        <button id="delete-btn" onclick="deleteData(id)">delete</button>
+    </div>
     <div class="container">
       <div class="row"></div>
     </div>
+   
     <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -52,6 +57,7 @@
     ></script>
 
     <script>
+       
       document.getElementById("getText").addEventListener("click", getText);
       document.getElementById("addPost").addEventListener("submit", addPost);
       function getText() {
@@ -86,20 +92,21 @@
               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxNTA0OTEsImV4cCI6MTY1NjM2MDA5MX0.HQ9iyLzEgYmGT8e10FJEwTMx2TAz_3jmcI5Klq64Iro",
           },
           body: JSON.stringify({
-            "name": "name",
-            "description": "description",
-            "category": "category",
-            "imageUrl": "imageUrl",
+            name: name,
+            description: description,
+            category: category,
+            imageUrl: imageUrl,
           }),
         })
           .then((res) => res.json())
           .then((data) => console.log(data));
       }
-      async function displayData() {
+      async function displayData(genre) {
         try {
           const response = await fetch(
-            "https://striveschool-api.herokuapp.com/api/movies/",
-            {   method: "GET",
+            "https://striveschool-api.herokuapp.com/api/movies/" + genre,
+            {
+              method: "GET",
               headers: {
                 Authorization:
                   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
@@ -107,14 +114,56 @@
             }
           );
           const data = await response.json();
-            console.log(data)
-            const grid = document.querySelector('.container > .row')
-            
+          console.log(data);
+          const grid = document.querySelector(".container > .row");
+          data.forEach((movie) => {
+            const element = document.createElement("div");
+            element.innerHTML = `
+                <h3>${movie.name}</h3>
+                <img src="${movie.imageUrl}"
+                <p>${movie.description}</p>
+                `;
+            grid.appendChild(element);
+          });
         } catch (err) {
           console.log(err);
         }
       }
-      window.onload = displayData()
+      async function deleteData(id) {
+        try {
+          const response = await fetch(
+            "https://striveschool-api.herokuapp.com/api/movies/" + id,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
+              },
+            }
+          );
+          
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    //   async function editData(id) {
+    //     try {
+    //       const response = await fetch(
+    //         "https://striveschool-api.herokuapp.com/api/movies/" + id,
+    //         {
+    //           method: "PUT",
+    //           headers: {
+    //             Authorization:
+    //               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
+    //           },
+    //         }
+    //       );
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   }
+      window.onload = displayData("horror movies");
+      //window.onload = deleteData();
     </script>
   </body>
 </html>
