@@ -37,11 +37,11 @@
       </div>
       <input type="submit" value="Submit" />
     </form>
-   
+
     <div class="container">
       <div class="row"></div>
     </div>
-   
+
     <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -54,7 +54,6 @@
     ></script>
 
     <script>
-       
       document.getElementById("getText").addEventListener("click", getText);
       document.getElementById("addPost").addEventListener("submit", addPost);
       function getText() {
@@ -138,7 +137,6 @@
               },
             }
           );
-          
         } catch (err) {
           console.log(err);
         }
@@ -153,6 +151,12 @@
     //             Authorization:
     //               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
     //           },
+    //           body: JSON.stringify({
+    //             name: name,
+    //             description: description,
+    //             category: category,
+    //             imageUrl: imageUrl,
+    //           }),
     //         }
     //       );
     //     } catch (err) {
@@ -161,7 +165,7 @@
     //   }
       window.onload = displayData("horror movies");
       //window.onload = deleteData();
-      deleteData("62a862396f53e100157247d1")
+      deleteData("62a862396f53e100157247d1");
     </script>
   </body>
 </html>
