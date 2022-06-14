@@ -118,6 +118,7 @@
                 <h3>${movie.name}</h3>
                 <img src="${movie.imageUrl}"
                 <p>${movie.description}</p>
+                <button id="${movie._id}" category="${movie.category}" onclick="getId(event)">"Edit"</button>
                 `;
             grid.appendChild(element);
           });
@@ -141,28 +142,51 @@
           console.log(err);
         }
       }
-    //   async function editData(id) {
-    //     try {
-    //       const response = await fetch(
-    //         "https://striveschool-api.herokuapp.com/api/movies/" + id,
-    //         {
-    //           method: "PUT",
-    //           headers: {
-    //             Authorization:
-    //               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
-    //           },
-    //           body: JSON.stringify({
-    //             name: name,
-    //             description: description,
-    //             category: category,
-    //             imageUrl: imageUrl,
-    //           }),
-    //         }
-    //       );
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   }
+      const getId = async (event) => {
+        const cat = event.target.getAttribute("category");
+        try {
+          const res = await fetch(
+            "https://striveschool-api.herokuapp.com/api/movies/" + cat,
+            {
+              method: "GET",
+              headers: {
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
+              },
+            }
+          );
+          const movieList = await res.json()
+          const movie = movieList.filter((currentMovie)=>{
+            return currentMovie._id === event.target.id
+          })
+          console.log(event.target.id, event.target.getAttribute("category"));
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      //   async function editData(id) {
+      //     try {
+      //       const response = await fetch(
+      //         "https://striveschool-api.herokuapp.com/api/movies/" + id,
+      //         {
+      //           method: "PUT",
+      //           headers: {
+      //             Authorization:
+      //               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmE2MDUyZjMzODEzZjAwMTUwZGRkZmMiLCJpYXQiOjE2NTUxOTcyNTEsImV4cCI6MTY1NjQwNjg1MX0.prKaUEMTL3uIm8jlWBVzeta8ClLVDpftAJHG7imm348",
+      //           },
+      //           body: JSON.stringify({
+      //             name: name,
+      //             description: description,
+      //             category: category,
+      //             imageUrl: imageUrl,
+      //           }),
+      //         }
+      //       );
+      //     } catch (err) {
+      //       console.log(err);
+      //     }
+      //   }
       window.onload = displayData("horror movies");
       //window.onload = deleteData();
       deleteData("62a862396f53e100157247d1");
